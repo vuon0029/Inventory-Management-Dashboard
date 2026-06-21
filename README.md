@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Inventory Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript inventory dashboard built for a technical take-home challenge. The app fetches mock data from the JSONPlaceholder Todos API, maps the first 30 records into a local product schema, and allows users to add, search, sort, and paginate inventory products.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Github Pages
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Fetches initial data from `https://jsonplaceholder.typicode.com/todos`
+- Uses only the first 30 API records for the local inventory dataset
+- Maps API `title` values into local product names called `productName`
+- Displays products in an HTML table
+- Filters products by `productName` in real time
+- Sorts products by `productName` in ascending or descending order
+- Applies table processing in the required order: filter -> sort -> paginate
+- Supports client-side pagination
+- Allows users to add new products through a controlled HTML Form
+- Validates product name and quantity fields
+- Shows inline validation errors for invalid fields
+- Keeps the Save button disabled until the form has been modified and all fields are valid
+- Includes loading, error, and empty-result states
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React
+- TypeScript
+- Vite
+- CSS Modules
+- Native Fetch API
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Install dependencies:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run the development server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Build the project:
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## Project Structure
+
+```txt
+src/
+  api/
+    inventoryApi.ts
+  components/
+    Form/
+      ProductForm.tsx
+      ProductForm.module.css
+    Pagination/
+      Pagination.tsx
+      Pagination.module.css
+    ProductTable/
+      ProductTable.tsx
+      ProductTable.module.css
+    SearchBar/
+      SearchBar.tsx
+      SearchBar.module.css
+  helpers/
+    validation.ts
+  types/
+    product.ts
+  App.tsx
+  App.css
+  index.css
+```
+
+## Architecture and Optimization
+
+This project uses a small component-based React structure with TypeScript. API fetching and mapping are kept in `inventoryApi.ts`, shared types are kept in `types`, validation is kept in a helper, and UI pieces such as the Form, Search bar, Product table, and Pagination are split into focused components. The main `App` component owns the dashboard state and derives the displayed rows in the required order: filter, sort, then paginate. I used `useMemo` to avoid recalculating processed table rows unnecessarily, `useCallback` for stable event handlers, and reset pagination after search or sort changes so the table stays in a valid state. I also added small UI optimizations such as a fixed table area to reduce layout shift, reserved form error space, readable local IDs for new products, and colocated CSS Modules to keep styling simple and maintainable for a small component-driven app.
