@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./ProductForm.module.css";
 
 import type { Product } from "../../types/product";
 import {
@@ -60,42 +61,61 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
     });
 
     setValues(initialValues);
+    setDirtyFields({});
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Product</h2>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h2 className={styles.title}>Add Product</h2>
 
-      <div>
-        <label htmlFor="productName">Product Name</label>
-        <input
-          id="productName"
-          name="productName"
-          type="text"
-          value={values.productName}
-          onChange={handleChange}
-        />
+      <div className={styles.fields}>
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="productName">
+            Product Name
+          </label>
+          <input
+            className={styles.input}
+            id="productName"
+            name="productName"
+            type="text"
+            value={values.productName}
+            onChange={handleChange}
+          />
 
-        {dirtyFields.productName && errors.productName && (
-          <p>{errors.productName}</p>
-        )}
+          {dirtyFields.productName && errors.productName && (
+            <p className={styles.error} role="alert">
+              {errors.productName}
+            </p>
+          )}
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="quantity">
+            Quantity
+          </label>
+          <input
+            className={styles.input}
+            id="quantity"
+            name="quantity"
+            type="number"
+            min="1"
+            value={values.quantity}
+            onChange={handleChange}
+          />
+
+          {dirtyFields.quantity && errors.quantity && (
+            <p className={styles.error} role="alert">
+              {errors.quantity}
+            </p>
+          )}
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="quantity">Quantity</label>
-        <input
-          id="quantity"
-          name="quantity"
-          type="number"
-          min="1"
-          value={values.quantity}
-          onChange={handleChange}
-        />
-
-        {dirtyFields.quantity && errors.quantity && <p>{errors.quantity}</p>}
-      </div>
-
-      <button type="submit" disabled={isSaveDisabled}>
+      <button
+        className={styles.submitButton}
+        type="submit"
+        disabled={isSaveDisabled}
+      >
         Save
       </button>
     </form>
