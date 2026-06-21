@@ -86,6 +86,8 @@ function App() {
     setSortDirection((currentDirection) =>
       currentDirection === "asc" ? "desc" : "asc",
     );
+
+    setCurrentPage(1);
   }, []);
   // #endregion
 
