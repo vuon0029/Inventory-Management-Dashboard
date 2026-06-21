@@ -117,6 +117,7 @@ function App() {
         <h2 className="app-table-header">Product Inventory</h2>
         <SearchBar value={searchTerm} onChange={handleSearchChange} />
         <ProductTable
+          sortDirection={sortDirection}
           products={paginatedProducts}
           onSortToggle={handleSortToggle}
         />
