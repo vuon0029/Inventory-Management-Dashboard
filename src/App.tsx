@@ -5,6 +5,7 @@ import type { Product } from "./types/product";
 import { fetchProducts } from "./api/inventoryApi";
 import { ProductTable } from "./components/ProductTable/ProductTable";
 import SearchBar from "./components/SearchBar/SearchBar";
+import { ProductForm } from "./components/Form/ProductForm";
 
 function App() {
   const ITEMS_PER_PAGE = 10;
@@ -34,6 +35,21 @@ function App() {
 
     loadProducts();
   }, []);
+
+  // #region ADD PRODUCT
+  function handleAddProduct(product: Omit<Product, "id">) {
+    setProducts((currentProducts) => [
+      {
+        // randomize the Product ID
+        id: crypto.randomUUID(),
+        ...product,
+      },
+      ...currentProducts,
+    ]);
+
+    setCurrentPage(1);
+  }
+  // #endregion
 
   // #region FILTERING/ SEARCHING
   const handleSearchChange = (value: string) => {
@@ -94,6 +110,7 @@ function App() {
             <p role="alert">{error}</p>
           ) : (
             <div>
+              <ProductForm onAddProduct={handleAddProduct} />
               <SearchBar value={searchTerm} onChange={handleSearchChange} />
               <ProductTable
                 products={paginatedProducts}
