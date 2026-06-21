@@ -4,7 +4,7 @@ A React + TypeScript inventory dashboard built for a technical take-home challen
 
 ## Live Demo
 
-Github Pages
+[View the deployed app](https://vuon0029.github.io/Inventory-Management-Dashboard/)
 
 ## Features
 
