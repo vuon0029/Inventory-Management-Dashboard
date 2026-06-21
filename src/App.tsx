@@ -40,8 +40,8 @@ function App() {
   function handleAddProduct(product: Omit<Product, "id">) {
     setProducts((currentProducts) => [
       {
-        // randomize the Product ID
-        id: crypto.randomUUID(),
+        // keeps ID similar to placeholder API data
+        id: String(currentProducts.length + 1),
         ...product,
       },
       ...currentProducts,
