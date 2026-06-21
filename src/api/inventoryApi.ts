@@ -9,7 +9,7 @@ type PlaceholderItem = {
   completed: boolean;
 };
 
-export const fetchProduct = async (): Promise<Product[]> => {
+export const fetchProducts = async (): Promise<Product[]> => {
   const response = await fetch(PLACEHOLDER_URL);
 
   if (!response.ok) {
