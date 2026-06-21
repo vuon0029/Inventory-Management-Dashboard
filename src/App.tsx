@@ -3,11 +3,16 @@ import React from "react";
 import "./App.css";
 import type { Product } from "./types/product";
 import { fetchProducts } from "./api/inventoryApi";
+import { ProductTable } from "./components/ProductTable/ProductTable";
 
 function App() {
-  const [products, setProducts] = React.useState<Product[]>([]);
+  const ITEMS_PER_PAGE = 10;
+
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
+
+  const [products, setProducts] = React.useState<Product[]>([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
 
   React.useEffect(() => {
     const loadProducts = async () => {
@@ -25,6 +30,15 @@ function App() {
     loadProducts();
   }, []);
 
+  const totalPages = Math.max(1, Math.ceil(products.length / ITEMS_PER_PAGE));
+
+  const paginatedProducts = React.useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    return products.slice(startIndex, endIndex);
+  }, [products, currentPage]);
+
   return (
     <div>
       {isLoading ? (
@@ -35,9 +49,30 @@ function App() {
             <p role="alert">{error}</p>
           ) : (
             <div>
-              {products.map((product) => {
-                return <p key={product.id}>{product.productName}</p>;
-              })}
+              <ProductTable products={paginatedProducts} />
+
+              {/* "PREVIOUS" and "NEXT" buttons for pagination */}
+              <div>
+                <button
+                  type="button"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((page) => page - 1)}
+                >
+                  Previous
+                </button>
+
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <button
+                  type="button"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((page) => page + 1)}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           )}
         </>
