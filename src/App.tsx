@@ -108,19 +108,25 @@ function App() {
   }
 
   return (
-    <main>
-      <ProductForm onAddProduct={handleAddProduct} />
-      <SearchBar value={searchTerm} onChange={handleSearchChange} />
-      <ProductTable
-        products={paginatedProducts}
-        onSortToggle={handleSortToggle}
-      />
+    <main className="app">
+      <section className="app-section">
+        <ProductForm onAddProduct={handleAddProduct} />
+      </section>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
+      <section className="app-section">
+        <h2 className="app-table-header">Product Inventory</h2>
+        <SearchBar value={searchTerm} onChange={handleSearchChange} />
+        <ProductTable
+          products={paginatedProducts}
+          onSortToggle={handleSortToggle}
+        />
+
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </section>
     </main>
   );
 }
