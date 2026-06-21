@@ -21,5 +21,6 @@ export const fetchProducts = async (): Promise<Product[]> => {
   return placeholderData.slice(0, 30).map((product) => ({
     id: product.id.toString(),
     productName: product.title,
+    quantity: product.id + 1, // mock quantity, should be greater than 0
   }));
 };

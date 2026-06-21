@@ -17,6 +17,9 @@ export function ProductTable({ products }: ProductTableProps) {
           <th>
             <p>Product Name</p>
           </th>
+          <th>
+            <p>Quantity</p>
+          </th>
         </tr>
       </thead>
 
@@ -25,6 +28,7 @@ export function ProductTable({ products }: ProductTableProps) {
           <tr key={product.id}>
             <td>{product.id}</td>
             <td>{product.productName}</td>
+            <td>{product.quantity}</td>
           </tr>
         ))}
       </tbody>
