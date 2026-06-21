@@ -34,7 +34,6 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
   const isValid = Object.keys(errors).length === 0;
   const isSaveDisabled = !isDirty || !isValid;
 
-  // dynamically set the text input values
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 

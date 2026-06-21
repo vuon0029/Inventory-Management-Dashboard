@@ -37,10 +37,9 @@ function App() {
     loadProducts();
   }, []);
 
-  function handleAddProduct(product: Omit<Product, "id">) {
+  const handleAddProduct = React.useCallback((product: Omit<Product, "id">) => {
     setProducts((currentProducts) => [
       {
-        // keeps ID similar to placeholder API data
         id: String(currentProducts.length + 1),
         ...product,
       },
@@ -48,13 +47,13 @@ function App() {
     ]);
 
     setCurrentPage(1);
-  }
+  }, []);
 
   // #region FILTERING/ SEARCHING
-  const handleSearchChange = (value: string) => {
+  const handleSearchChange = React.useCallback((value: string) => {
     setSearchTerm(value);
     setCurrentPage(1);
-  };
+  }, []);
 
   const filteredProducts = React.useMemo(() => {
     const normalizedSearchTerm = searchTerm.trim().toLowerCase();
@@ -83,11 +82,11 @@ function App() {
     Math.ceil(sortedProducts.length / ITEMS_PER_PAGE),
   );
 
-  const handleSortToggle = () => {
+  const handleSortToggle = React.useCallback(() => {
     setSortDirection((currentDirection) =>
       currentDirection === "asc" ? "desc" : "asc",
     );
-  };
+  }, []);
   // #endregion
 
   // #region PAGINATION

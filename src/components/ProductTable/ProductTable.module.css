@@ -55,3 +55,15 @@
 .sortButton:hover {
   color: #1d4ed8;
 }
+
+.emptyState {
+  margin: 0;
+  padding: 32px 24px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}

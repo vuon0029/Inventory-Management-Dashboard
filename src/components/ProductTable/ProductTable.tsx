@@ -13,7 +13,7 @@ export function ProductTable({
   sortDirection,
 }: ProductTableProps) {
   if (products.length === 0) {
-    return <p>No products found.</p>;
+    return <p className={styles.emptyState}>No products match your search.</p>;
   }
 
   return (
