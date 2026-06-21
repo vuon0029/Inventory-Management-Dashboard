@@ -82,11 +82,11 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
             onChange={handleChange}
           />
 
-          {dirtyFields.productName && errors.productName && (
-            <p className={styles.error} role="alert">
-              {errors.productName}
-            </p>
-          )}
+          <p className={styles.error} role="alert">
+            {dirtyFields.productName && errors.productName
+              ? errors.productName
+              : "\u00A0"}
+          </p>
         </div>
 
         <div className={styles.field}>
@@ -103,11 +103,11 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
             onChange={handleChange}
           />
 
-          {dirtyFields.quantity && errors.quantity && (
-            <p className={styles.error} role="alert">
-              {errors.quantity}
-            </p>
-          )}
+          <p className={styles.error} role="alert">
+            {dirtyFields.quantity && errors.quantity
+              ? errors.quantity
+              : "\u00A0"}
+          </p>
         </div>
       </div>
 
