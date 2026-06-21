@@ -2,9 +2,15 @@ import type { Product } from "../../types/product";
 
 type ProductTableProps = {
   products: Product[];
+  sortDirection?: "asc" | "desc";
+  onSortToggle: () => void;
 };
 
-export function ProductTable({ products }: ProductTableProps) {
+export function ProductTable({
+  products,
+  onSortToggle,
+  sortDirection,
+}: ProductTableProps) {
   if (products.length === 0) {
     return <p>No products found.</p>;
   }
@@ -15,11 +21,11 @@ export function ProductTable({ products }: ProductTableProps) {
         <tr>
           <th>ID</th>
           <th>
-            <p>Product Name</p>
+            <button type="button" onClick={onSortToggle}>
+              Product Name {sortDirection === "asc" ? "ASC" : "DESC"}
+            </button>
           </th>
-          <th>
-            <p>Quantity</p>
-          </th>
+          <th>Quantity</th>
         </tr>
       </thead>
 
