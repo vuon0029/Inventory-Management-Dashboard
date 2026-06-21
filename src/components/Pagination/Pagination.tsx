@@ -1,3 +1,5 @@
+import styles from "./Pagination.module.css";
+
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
@@ -13,8 +15,9 @@ export function Pagination({
   const isLastPage = currentPage === totalPages;
 
   return (
-    <nav aria-label="Product table pagination">
+    <nav className={styles.pagination} aria-label="Product table pagination">
       <button
+        className={styles.button}
         type="button"
         disabled={isFirstPage}
         onClick={() => onPageChange(currentPage - 1)}
@@ -22,11 +25,12 @@ export function Pagination({
         Previous
       </button>
 
-      <span>
+      <span className={styles.pageInfo}>
         Page {currentPage} of {totalPages}
       </span>
 
       <button
+        className={styles.button}
         type="button"
         disabled={isLastPage}
         onClick={() => onPageChange(currentPage + 1)}
