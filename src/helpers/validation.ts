@@ -30,6 +30,5 @@ export function validateProductForm(
     errors.quantity = "Quantity must be a whole number greater than 0.";
   }
 
-  console.log("validateProductForm");
   return errors;
 }

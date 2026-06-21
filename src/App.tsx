@@ -6,6 +6,7 @@ import { fetchProducts } from "./api/inventoryApi";
 import { ProductTable } from "./components/ProductTable/ProductTable";
 import SearchBar from "./components/SearchBar/SearchBar";
 import { ProductForm } from "./components/Form/ProductForm";
+import { Pagination } from "./components/Pagination/Pagination";
 
 function App() {
   const ITEMS_PER_PAGE = 10;
@@ -36,7 +37,6 @@ function App() {
     loadProducts();
   }, []);
 
-  // #region ADD PRODUCT
   function handleAddProduct(product: Omit<Product, "id">) {
     setProducts((currentProducts) => [
       {
@@ -49,7 +49,6 @@ function App() {
 
     setCurrentPage(1);
   }
-  // #endregion
 
   // #region FILTERING/ SEARCHING
   const handleSearchChange = (value: string) => {
@@ -100,50 +99,29 @@ function App() {
   }, [sortedProducts, currentPage]);
   // #endregion
 
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+
+  if (error) {
+    return <p role="alert">{error}</p>;
+  }
+
   return (
-    <div>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {error ? (
-            <p role="alert">{error}</p>
-          ) : (
-            <div>
-              <ProductForm onAddProduct={handleAddProduct} />
-              <SearchBar value={searchTerm} onChange={handleSearchChange} />
-              <ProductTable
-                products={paginatedProducts}
-                onSortToggle={handleSortToggle}
-              />
+    <main>
+      <ProductForm onAddProduct={handleAddProduct} />
+      <SearchBar value={searchTerm} onChange={handleSearchChange} />
+      <ProductTable
+        products={paginatedProducts}
+        onSortToggle={handleSortToggle}
+      />
 
-              {/* "PREVIOUS" and "NEXT" buttons for pagination */}
-              <div>
-                <button
-                  type="button"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((page) => page - 1)}
-                >
-                  Previous
-                </button>
-
-                <span>
-                  Page {currentPage} of {totalPages}
-                </span>
-
-                <button
-                  type="button"
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((page) => page + 1)}
-                >
-                  Next
-                </button>
-              </div>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </main>
   );
 }
 
