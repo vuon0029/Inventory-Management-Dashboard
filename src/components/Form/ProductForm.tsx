@@ -21,6 +21,7 @@ const initialValues: ProductFormValues = {
 export function ProductForm({ onAddProduct }: ProductFormProps) {
   const [values, setValues] = React.useState<ProductFormValues>(initialValues);
   const [dirtyFields, setDirtyFields] = React.useState<DirtyFields>({});
+  const [successMessage, setSuccessMessage] = React.useState("");
 
   const errors = React.useMemo(() => {
     return validateProductForm(values);
@@ -62,6 +63,7 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
 
     setValues(initialValues);
     setDirtyFields({});
+    setSuccessMessage("Product added successfully.");
   }
 
   return (
@@ -111,13 +113,19 @@ export function ProductForm({ onAddProduct }: ProductFormProps) {
         </div>
       </div>
 
-      <button
-        className={styles.submitButton}
-        type="submit"
-        disabled={isSaveDisabled}
-      >
-        Save
-      </button>
+      <div className={styles.fields}>
+        <p className={styles.success} role="status">
+          {successMessage.length > 0 ? successMessage : "\u00A0"}
+        </p>
+
+        <button
+          className={styles.submitButton}
+          type="submit"
+          disabled={isSaveDisabled}
+        >
+          Save
+        </button>
+      </div>
     </form>
   );
 }

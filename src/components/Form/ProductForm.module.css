@@ -26,7 +26,8 @@
 .fields {
   display: flex;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .field {
@@ -80,6 +81,13 @@
 .submitButton:disabled {
   background: #94a3b8;
   cursor: not-allowed;
+}
+
+.success {
+  margin: 0;
+  color: #15803d;
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 @media (max-width: 720px) {
