@@ -4,6 +4,7 @@ import "./App.css";
 import type { Product } from "./types/product";
 import { fetchProducts } from "./api/inventoryApi";
 import { ProductTable } from "./components/ProductTable/ProductTable";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
   const ITEMS_PER_PAGE = 10;
@@ -11,6 +12,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<string | null>(null);
 
+  const [searchTerm, setSearchTerm] = React.useState("");
   const [products, setProducts] = React.useState<Product[]>([]);
   const [sortDirection, setSortDirection] = React.useState<"asc" | "desc">(
     "asc",
@@ -33,31 +35,54 @@ function App() {
     loadProducts();
   }, []);
 
+  // #region FILTERING/ SEARCHING
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const filteredProducts = React.useMemo(() => {
+    const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+
+    if (!normalizedSearchTerm) {
+      return products;
+    }
+
+    return products.filter((product) =>
+      product.productName.toLowerCase().includes(normalizedSearchTerm),
+    );
+  }, [products, searchTerm]);
+  // #endregion
+
+  // #region SORTING "asc" | "desc"
   const sortedProducts = React.useMemo(() => {
-    return [...products].sort((a, b) => {
+    return [...filteredProducts].sort((a, b) => {
       const comparison = a.productName.localeCompare(b.productName);
 
       return sortDirection === "asc" ? comparison : -comparison;
     });
-  }, [products, sortDirection]);
+  }, [filteredProducts, sortDirection]);
 
   const totalPages = Math.max(
     1,
     Math.ceil(sortedProducts.length / ITEMS_PER_PAGE),
   );
 
+  const handleSortToggle = () => {
+    setSortDirection((currentDirection) =>
+      currentDirection === "asc" ? "desc" : "asc",
+    );
+  };
+  // #endregion
+
+  // #region PAGINATION
   const paginatedProducts = React.useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
 
     return sortedProducts.slice(startIndex, endIndex);
   }, [sortedProducts, currentPage]);
-
-  const handleSortToggle = () => {
-    setSortDirection((currentDirection) =>
-      currentDirection === "asc" ? "desc" : "asc",
-    );
-  };
+  // #endregion
 
   return (
     <div>
@@ -69,6 +94,7 @@ function App() {
             <p role="alert">{error}</p>
           ) : (
             <div>
+              <SearchBar value={searchTerm} onChange={handleSearchChange} />
               <ProductTable
                 products={paginatedProducts}
                 onSortToggle={handleSortToggle}
